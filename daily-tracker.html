@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Daily">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f5f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12171d" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADyklEQVR4nO3dS27bSBSG0esgu0lvKFlgryj7SQ+IJGzZvySLj3rwnJntCcH7gVVlC/Tbt++/Cj7ypfUF0C9xEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDqKvrS+Av37++78v//nR6Dp+e/NvvHpwk8Vaw0QsK+3dKePhTw8ljsaemX2rPsTR0vNTb9KHOJppuF48SRxtvFDG+TGJg0gcDfS/oCzEcbZRyihxnGygMkocZ9pYxvm/KhXHScZ6ZizEMYYmf2ERxxmGW1AW4jjcoGWUz3McbUsZzT/P4clxoBE3oWviOMq4q8kf4jjEBGWUODrUSRkljiMMvQldE8fOpimjxLGv0Y8nN8Sxmzk2oWvi2Md8ZZQ4djFlGSWO5roto8Sx3UzHkxvi2GTiMkocW0x2cH1PHC+adRO6Jo5XXKGMEsf5RimjxPGCuTeha+L4nOuUUV19hrS3N2K9d6kyqpM4Przpyzf7uafTH1zfa7+sdPtGrLWLHE9uNI6j5zdi7XUBg5ZRbePo/I1Yuxi3jGr+5Hheqz6utgldaxbHEC/FunIZNdCTY3FmH+OuZXsZLI46a2aX3YSujRdHHd+HMhZDxlEdP/OnKaMaxrH9Jh7Ux8U3oWujPjkWu/ehjLWWcexyN3fsQxk3Gj85+umj201MQ+2XlR76cDz5UPs4qnUfyki6iKNa9/GyicuofuKoRn3YhN7RURx1eh/KuK+vOOrEPhxPHuoujjqlD5vQZ/QYRx3chzKe1GkcdVgfynhev3FUf+fbS5VRncdRe/fhePIpb9++/2p9DY81P1lcsIzq/8mxuOZsmhsjjmrax2XTHCaOajSky5ZRY8VRp4/qymXUcHHUiQO7eBk1Yhx1ytiUUYPGUQcPTxmLUeMoIzzewHHUMX1o7o+x46i9Z6mMteHjqP0mqowbM8RRe8xVGe9NEkdtm64yPjRPHGXGe5sqjnqpD0kls8VRhr2fCeOoz/ShpDvmjKOem7oy7ps2jno0e2U8NMZnSDfq//8x9OkScfCamZcVNhIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQ/QcntcClplv9vwAAAABJRU5ErkJggg==">
+<title>Daily tracker</title>
+<style>
+  :root {
+    --bg: #f2f5f8;
+    --surface: #ffffff;
+    --text: #17202b;
+    --muted: #6a7686;
+    --line: #dde3ea;
+    --today: #2b59ff;
+    --today-bg: #e6ecff;
+    --week: #0f8a7c;
+    --week-bg: #dff3f0;
+    --soon: #7b5cf0;
+    --soon-bg: #ece7fd;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12171d;
+      --surface: #1b222b;
+      --text: #e8edf3;
+      --muted: #8d99a8;
+      --line: #2b3541;
+      --today: #7b9bff;
+      --today-bg: #1f2b4d;
+      --week: #4cc9b8;
+      --week-bg: #17332f;
+      --soon: #a994ff;
+      --soon-bg: #2a2447;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.4;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: calc(20px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom)); }
+  h1 { font-size: 1.5rem; margin: 4px 0 2px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+
+  .add {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+  .add-row { display: flex; gap: 8px; }
+  .add input[type=text] {
+    flex: 1; min-width: 0;
+    font: inherit; font-size: 1rem;
+    color: var(--text);
+    background: transparent;
+    border: none; outline: none;
+    padding: 8px 6px;
+  }
+  .add input::placeholder { color: var(--muted); }
+  .add-btn {
+    font: inherit; font-weight: 600;
+    background: var(--text); color: var(--bg);
+    border: none; border-radius: 10px;
+    padding: 8px 16px; cursor: pointer;
+  }
+  .types { display: flex; gap: 6px; margin-top: 6px; padding: 0 2px; }
+  .type-btn {
+    font: inherit; font-size: 0.85rem; font-weight: 600;
+    border: 1.5px solid var(--line);
+    background: transparent; color: var(--muted);
+    border-radius: 999px; padding: 5px 12px; cursor: pointer;
+  }
+  .type-btn[data-type=today].on { background: var(--today-bg); color: var(--today); border-color: var(--today); }
+  .type-btn[data-type=week].on { background: var(--week-bg); color: var(--week); border-color: var(--week); }
+  .type-btn[data-type=soon].on { background: var(--soon-bg); color: var(--soon); border-color: var(--soon); }
+
+  .days { display: none; gap: 6px; margin-top: 10px; padding: 10px 2px 2px; border-top: 1px solid var(--line); flex-wrap: wrap; align-items: center; }
+  .days.show { display: flex; }
+  .days-label { font-size: 0.8rem; color: var(--muted); width: 100%; }
+  .day-btn {
+    font: inherit; font-size: 0.85rem; font-weight: 600;
+    border: 1.5px solid var(--line); background: transparent; color: var(--muted);
+    border-radius: 8px; padding: 5px 11px; cursor: pointer;
+  }
+  .day-btn.on { background: var(--week-bg); color: var(--week); border-color: var(--week); }
+  .filters { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 2px; }
+  .chip {
+    font: inherit; font-size: 0.85rem; font-weight: 600;
+    white-space: nowrap;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  }
+  .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip .n { opacity: 0.7; margin-left: 4px; font-weight: 500; }
+
+  .section { margin-bottom: 18px; }
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 0 2px 6px;
+  }
+  .sec-title { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .clear {
+    font: inherit; font-size: 0.8rem; color: var(--muted);
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+
+  .task {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left-width: 4px;
+    border-radius: 10px;
+    padding: 10px 8px 10px 12px;
+    margin-bottom: 6px;
+  }
+  .task[data-type=today] { border-left-color: var(--today); }
+  .task[data-type=week] { border-left-color: var(--week); }
+  .task[data-type=soon] { border-left-color: var(--soon); }
+  .check {
+    appearance: none; -webkit-appearance: none;
+    width: 22px; height: 22px; flex: none;
+    border: 2px solid var(--muted); border-radius: 50%;
+    margin: 0; cursor: pointer; display: grid; place-content: center;
+  }
+  .check:checked { background: var(--week); border-color: var(--week); }
+  .check:checked::after { content: ""; width: 6px; height: 11px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); }
+  .label { flex: 1; word-break: break-word; }
+  .task.done .label { text-decoration: line-through; color: var(--muted); }
+  .tag {
+    font: inherit; font-size: 0.72rem; font-weight: 600;
+    border: none; border-radius: 999px; padding: 3px 9px; cursor: pointer; flex: none;
+  }
+  .tag[data-type=today] { background: var(--today-bg); color: var(--today); }
+  .tag[data-type=week] { background: var(--week-bg); color: var(--week); }
+  .tag[data-type=soon] { background: var(--soon-bg); color: var(--soon); }
+  .del {
+    background: none; border: none; color: var(--muted);
+    font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 4px 8px; flex: none;
+  }
+  .empty { color: var(--muted); font-size: 0.9rem; padding: 6px 4px; }
+  .hint { color: var(--muted); font-size: 0.78rem; margin-top: 18px; text-align: center; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--today); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 id="day"></h1>
+  <div class="sub" id="date"></div>
+
+  <div class="add">
+    <div class="add-row">
+      <input type="text" id="input" placeholder="Add something to get done" autocomplete="off" enterkeyhint="done">
+      <button class="add-btn" id="addBtn">Add</button>
+    </div>
+    <div class="types" id="types"></div>
+    <div class="days" id="days"></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div id="list"></div>
+  <div class="hint">Tap a task's tag to switch it between Today and Do soon. This week items move to Today on their day.</div>
+</div>
+
+<script>
+  const TYPES = [
+    { id: 'today', name: 'Today' },
+    { id: 'week', name: 'This week' },
+    { id: 'soon', name: 'Do soon' }
+  ];
+  const nameOf = id => TYPES.find(t => t.id === id).name;
+  const colorOf = id => `var(--${id})`;
+
+  let tasks = [];
+  let addType = 'today';
+  let filter = 'all';
+  const KEY = 'daily-tracker:tasks';
+
+  const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const fromYmd = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+
+  // The next 6 days after today, as choices for "This week"
+  function dayOptions() {
+    const out = [];
+    for (let i = 1; i <= 6; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() + i);
+      out.push({
+        date: ymd(d),
+        short: d.toLocaleDateString(undefined, { weekday: 'short' }),
+        long: d.toLocaleDateString(undefined, { weekday: 'long' })
+      });
+    }
+    return out;
+  }
+  let addDate = dayOptions()[0].date;
+
+  // Move "This week" items whose day has arrived into Today
+  function rollover() {
+    const today = ymd(new Date());
+    let changed = false;
+    tasks.forEach(t => {
+      if (t.type === 'week') {
+        if (!t.date) { t.date = dayOptions()[0].date; changed = true; }
+        if (t.date <= today) { t.type = 'today'; delete t.date; changed = true; }
+      }
+    });
+    return changed;
+  }
+
+  // Saves to this browser (localStorage); falls back to Claude's storage if that's unavailable
+  async function load() {
+    let raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) {}
+    if (raw === null) {
+      try { const r = await window.storage.get(KEY, false); raw = r && r.value; } catch (e) {}
+    }
+    try { if (raw) tasks = JSON.parse(raw); } catch (e) { tasks = []; }
+    if (rollover()) save();
+    render();
+  }
+
+  function checkNewDay() {
+    if (rollover()) { save(); }
+    render();
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) checkNewDay(); });
+  setInterval(checkNewDay, 60000);
+  async function save() {
+    const data = JSON.stringify(tasks);
+    try { localStorage.setItem(KEY, data); return; } catch (e) {}
+    try { await window.storage.set(KEY, data, false); }
+    catch (e) { console.error('Storage error:', e); }
+  }
+  function update() { save(); render(); }
+
+  function addTask() {
+    const input = document.getElementById('input');
+    const text = input.value.trim();
+    if (!text) return;
+    const task = { id: Date.now() + Math.random(), text, type: addType, done: false };
+    if (addType === 'week') task.date = addDate;
+    tasks.unshift(task);
+    input.value = '';
+    input.focus();
+    update();
+  }
+
+  function render() {
+    const now = new Date();
+    document.getElementById('day').textContent = now.toLocaleDateString(undefined, { weekday: 'long' });
+    document.getElementById('date').textContent = now.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+
+    // day picker (only when adding to "This week")
+    const opts = dayOptions();
+    if (!opts.some(o => o.date === addDate)) addDate = opts[0].date;
+    const days = document.getElementById('days');
+    days.className = 'days' + (addType === 'week' ? ' show' : '');
+    days.innerHTML = '<div class="days-label">Which day should this move to Today?</div>';
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'day-btn' + (addDate === o.date ? ' on' : '');
+      b.textContent = o.short;
+      b.setAttribute('aria-label', o.long);
+      b.onclick = () => { addDate = o.date; render(); };
+      days.appendChild(b);
+    });
+
+    // type picker
+    const types = document.getElementById('types');
+    types.innerHTML = '';
+    TYPES.forEach(t => {
+      const b = document.createElement('button');
+      b.className = 'type-btn' + (addType === t.id ? ' on' : '');
+      b.dataset.type = t.id;
+      b.textContent = t.name;
+      b.onclick = () => { addType = t.id; render(); };
+      types.appendChild(b);
+    });
+
+    // filters
+    const filters = document.getElementById('filters');
+    filters.innerHTML = '';
+    [{ id: 'all', name: 'All' }, ...TYPES].forEach(t => {
+      const count = tasks.filter(x => !x.done && (t.id === 'all' || x.type === t.id)).length;
+      const b = document.createElement('button');
+      b.className = 'chip' + (filter === t.id ? ' on' : '');
+      b.innerHTML = `${t.name}<span class="n">${count}</span>`;
+      b.onclick = () => { filter = t.id; render(); };
+      filters.appendChild(b);
+    });
+
+    // list
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    const shown = filter === 'all' ? TYPES : TYPES.filter(t => t.id === filter);
+    shown.forEach(t => {
+      const items = tasks.filter(x => x.type === t.id);
+      if (t.id === 'week') items.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+      const sorted = [...items.filter(x => !x.done), ...items.filter(x => x.done)];
+      const sec = document.createElement('div');
+      sec.className = 'section';
+
+      const head = document.createElement('div');
+      head.className = 'sec-head';
+      head.innerHTML = `<div class="sec-title"><span class="dot" style="background:${colorOf(t.id)}"></span>${t.name}</div>`;
+      if (items.some(x => x.done)) {
+        const c = document.createElement('button');
+        c.className = 'clear';
+        c.textContent = 'Clear done';
+        c.onclick = () => { tasks = tasks.filter(x => !(x.type === t.id && x.done)); update(); };
+        head.appendChild(c);
+      }
+      sec.appendChild(head);
+
+      if (!sorted.length) {
+        const e = document.createElement('div');
+        e.className = 'empty';
+        e.textContent = 'Nothing here yet.';
+        sec.appendChild(e);
+      }
+      sorted.forEach(task => sec.appendChild(taskEl(task)));
+      list.appendChild(sec);
+    });
+  }
+
+  function taskEl(task) {
+    const el = document.createElement('div');
+    el.className = 'task' + (task.done ? ' done' : '');
+    el.dataset.type = task.type;
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'check';
+    cb.checked = task.done;
+    cb.setAttribute('aria-label', 'Mark done');
+    cb.onchange = () => { task.done = cb.checked; update(); };
+
+    const label = document.createElement('span');
+    label.className = 'label';
+    label.textContent = task.text;
+
+    const tag = document.createElement('button');
+    tag.className = 'tag';
+    tag.dataset.type = task.type;
+    tag.textContent = task.type === 'week' && task.date
+      ? fromYmd(task.date).toLocaleDateString(undefined, { weekday: 'long' })
+      : nameOf(task.type);
+    tag.onclick = () => {
+      // Today <-> Do soon; a scheduled item jumps to Today
+      task.type = task.type === 'today' ? 'soon' : 'today';
+      delete task.date;
+      update();
+    };
+
+    const del = document.createElement('button');
+    del.className = 'del';
+    del.setAttribute('aria-label', 'Delete task');
+    del.textContent = '×';
+    del.onclick = () => { tasks = tasks.filter(x => x.id !== task.id); update(); };
+
+    el.append(cb, label, tag, del);
+    return el;
+  }
+
+  document.getElementById('addBtn').onclick = addTask;
+  document.getElementById('input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+  render();
+  load();
+</script>
+</body>
+</html>
